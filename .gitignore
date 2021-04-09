@@ -1,0 +1,15 @@
+# IDE
+/.idea/
+/.vs/
+
+# dependencies
+/node_modules
+
+# build
+/out
+/.next
+/dist
+/publish
+
+/.env.develop
+/.env.production
