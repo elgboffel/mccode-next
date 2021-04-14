@@ -5,12 +5,10 @@ import { ParsedUrlQuery } from "querystring";
 import { toUrlString } from "@common/helpers/toUrlString";
 import {
   MIDDLELAYER_ALL_PATHS_PATH,
-  MIDDLELAYER_GET_PAGE_PATH,
+  MIDDLELAYER_GET_PAGE_BY_SLUG_PATH,
 } from "@common/constants";
 
 const Page: NextPage = ({ ...props }) => {
-  console.log({ props });
-
   const router = useRouter();
   // const templates = Templates;
   if (router.isFallback) return <div>Loading...</div>;
@@ -39,9 +37,7 @@ const toParams = (array: Array<PublishedPath>) => {
         slug:
           publishedPath?.slug === "/"
             ? (false as any)
-            : `${publishedPath?.slug}/${publishedPath?.id}`
-                .split("/")
-                .filter((x) => x),
+            : publishedPath?.slug.split("/").filter((x) => x),
       },
     });
 
@@ -65,7 +61,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const result = (await content.json()) as { paths: PublishedPath[] };
 
   const paths = toParams(result.paths);
-  console.log(paths[0].params.slug);
 
   return {
     paths,
@@ -80,13 +75,15 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     `${process.env.MIDDLELAYER_HEADER_API_KEY}`,
     `${process.env.MIDDLELAYER_HEADER_API_KEY_VALUE}`
   );
-  const url = toUrlString(params?.slug);
-
+  const url = params?.slug ? toUrlString(params?.slug) : "/";
   const content = await fetch(
-    `${process.env.NEXT_PUBLIC_MIDDLELAYER_BASE_PATH}/${MIDDLELAYER_GET_PAGE_PATH}${url}`,
+    `${
+      process.env.NEXT_PUBLIC_MIDDLELAYER_BASE_PATH
+    }/${MIDDLELAYER_GET_PAGE_BY_SLUG_PATH}/${encodeURIComponent(url)}`,
     { headers }
   );
   const props = await content.json();
+
   return {
     props,
     revalidate: 1,
