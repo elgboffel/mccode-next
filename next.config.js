@@ -29,6 +29,10 @@ const nextConfig = {
 
     return config;
   },
+  i18n: {
+    locales: ["en-US", "da"],
+    defaultLocale: "en-US",
+  },
   target: "serverless",
   trailingSlash: false,
   onDemandEntries: {
