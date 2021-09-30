@@ -20,11 +20,12 @@ export const toNextPaths = (paths: Path[], ignoreList: string[] = []) => {
     if (isInIgnoreList) {
       return;
     }
+
     Object.entries(path.urls).forEach(([locale, urls]) => {
       urls.forEach((url) => {
         nextPaths.push({
           params: {
-            page: getUrlAsSlugs(url),
+            page: url === "/" ? (false as any) : getUrlAsSlugs(url),
             locale,
           },
         });

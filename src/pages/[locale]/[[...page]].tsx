@@ -9,15 +9,15 @@ import { PageNextPage } from "@api/types/pages/page";
 
 const Page: NextPage<PageNextPage> = ({ page, data, preview, locale }) => {
   const router = useRouter();
-  // const { data } = useSWR("/api/posts", fetcher, { initialData: props });
+  // const { data } = useSWR("/api/posts", fetcher, { initialData: page });
   // const templates = Templates;
   if (router.isFallback) return <div>Loading...</div>;
-  console.log({ page });
+
   // const Template = templates[template];
 
   if (!Page) return <>No page template/component found</>;
 
-  return <div />;
+  return <div>{page.title}</div>;
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -34,14 +34,16 @@ export const getStaticProps: GetStaticProps<PageNextPage> = async ({
   params,
   preview,
 }) => {
+  console.log(params);
+  const locale = params?.locale as string;
   const props = {} as PageNextPage;
-  const url = params?.page ? getPageSlugFromSlugsArray(params.page) : "/";
-
+  const slug = getPageSlugFromSlugsArray(params?.page ?? "/");
+  console.log({ slug });
   try {
     props.page = await contentfulApi.getPageBySlug({
-      url,
+      url: slug,
       preview,
-      locale: params?.locale as string,
+      locale,
     });
   } catch (e) {
     props.error = e as PageError;

@@ -55,19 +55,19 @@ const nextConfig = {
     iconSizes: [],
     domains: [],
   },
-  // async headers() {
-  //   return [
-  //     {
-  //       source: "/:slug*",
-  //       headers: [
-  //         {
-  //           key: "Cache-Control",
-  //           value: "max-age=31536000",
-  //         },
-  //       ],
-  //     },
-  //   ];
-  // },
+  async headers() {
+    return [
+      {
+        source: "/:slug*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "max-age=31536000",
+          },
+        ],
+      },
+    ];
+  },
   // async redirects() {
   //   return [
   //     {
