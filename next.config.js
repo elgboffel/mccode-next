@@ -2,7 +2,13 @@ const compose = require("next-compose-plugins");
 const path = require("path");
 
 const nextConfig = {
-  webpack: function (config, { dev }) {
+  webpack: function (config, { dev, isServer }) {
+    // // Fixes npm packages that depend on `fs` module
+    // if (!isServer) {
+    //   config.node = {
+    //     fs: "empty",
+    //   };
+    // }
     /* Resolve alias */
     config.resolve.alias["~"] = path.resolve(`${__dirname}/src`);
     config.resolve.alias["@common"] = path.resolve(`${__dirname}/src/common`);
@@ -12,6 +18,8 @@ const nextConfig = {
     config.resolve.alias["@shared-components"] = path.resolve(
       `${__dirname}/src/common/shared-components`
     );
+    config.resolve.alias["@styles"] = path.resolve(`${__dirname}/src/styles`);
+    config.resolve.alias["@api"] = path.resolve(`${__dirname}/src/api`);
 
     /* Resolve Eslint */
     if (dev) {
@@ -29,10 +37,10 @@ const nextConfig = {
 
     return config;
   },
-  i18n: {
-    locales: ["en-US", "da"],
-    defaultLocale: "en-US",
-  },
+  // i18n: {
+  //   locales: ["en-US", "da"],
+  //   defaultLocale: "en-US",
+  // },
   target: "serverless",
   trailingSlash: false,
   onDemandEntries: {

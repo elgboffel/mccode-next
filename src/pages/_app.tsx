@@ -1,15 +1,11 @@
 import React from "react";
-import App from "next/app";
-import { globalStyles } from "@common/styles/styles.global";
+import { AppProps } from "next/app";
+import { globalStyles } from "@styles/styles.global";
 
-class Site extends App {
-  render() {
-    globalStyles();
+const Site = ({ Component, pageProps }: AppProps) => {
+  globalStyles();
 
-    const { Component, pageProps, router } = this.props;
-
-    return <Component {...pageProps} key={router.asPath} />;
-  }
-}
+  return <Component {...pageProps} />;
+};
 
 export default Site;

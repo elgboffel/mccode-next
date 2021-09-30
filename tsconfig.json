@@ -30,6 +30,12 @@
       ],
       "@shared-components*": [
         "./src/common/shared-components*"
+      ],
+      "@styles*": [
+        "./src/styles*"
+      ],
+      "@api*": [
+        "./src/api*"
       ]
     }
   },

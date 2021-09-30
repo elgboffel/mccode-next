@@ -1,35 +1,17 @@
 ﻿import React from "react";
-import NextDocument, {
-  Html,
-  Head,
-  Main,
-  NextScript,
-  DocumentContext,
-} from "next/document";
-import { getCssString } from "@common/styles/stitches.config";
+import NextDocument, { Html, Head, Main, NextScript } from "next/document";
+import { getCssText } from "@styles/stitches.config";
 
 class Document extends NextDocument {
-  static async getInitialProps(ctx: DocumentContext) {
-    const initialProps = await NextDocument.getInitialProps(ctx);
-
-    return {
-      ...initialProps,
-      styles: (
-        <>
-          {initialProps.styles}
-          <style
-            id="stitches"
-            dangerouslySetInnerHTML={{ __html: getCssString() }}
-          />
-        </>
-      ),
-    };
-  }
-
   render() {
     return (
       <Html lang="en">
-        <Head />
+        <Head>
+          <style
+            id="stitches"
+            dangerouslySetInnerHTML={{ __html: getCssText() }}
+          />
+        </Head>
         <body>
           <Main />
           <NextScript />
