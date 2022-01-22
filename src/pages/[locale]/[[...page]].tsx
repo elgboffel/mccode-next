@@ -26,7 +26,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: true,
+    fallback: "blocking",
   };
 };
 
@@ -34,11 +34,10 @@ export const getStaticProps: GetStaticProps<PageNextPage> = async ({
   params,
   preview,
 }) => {
-  console.log(params);
   const locale = params?.locale as string;
   const props = {} as PageNextPage;
   const slug = getPageSlugFromSlugsArray(params?.page ?? "/");
-  console.log({ slug });
+
   try {
     props.page = await contentfulApi.getPageBySlug({
       url: slug,
@@ -52,7 +51,10 @@ export const getStaticProps: GetStaticProps<PageNextPage> = async ({
   if (props.error) throw new AppError(props.error);
 
   return {
-    props,
+    props: {
+      ...props,
+      fallback: true,
+    },
     revalidate: 1,
   };
 };
