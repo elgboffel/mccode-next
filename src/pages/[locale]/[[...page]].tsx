@@ -6,6 +6,11 @@ import { contentfulApi } from "@api/contentful/contentfulApi";
 import { getPageSlugFromSlugsArray } from "@common/helpers/next/getPageSlugFromSlugsArray";
 import { AppError, PageError } from "@common/errors/AppError";
 import { PageNextPage } from "@api/types/pages/page";
+import { Box } from "@components/primitives/Box/Box";
+import { Container } from "@components/primitives/Container/Container";
+import { Grid } from "@components/primitives/Grid/Grid";
+import { Heading } from "@components/ui/Heading/Heading";
+import { Paragraph } from "@components/primitives/Paragraph/Paragraph";
 
 const Page: NextPage<PageNextPage> = ({ page, data, preview, locale }) => {
   const router = useRouter();
@@ -17,7 +22,20 @@ const Page: NextPage<PageNextPage> = ({ page, data, preview, locale }) => {
 
   if (!Page) return <>No page template/component found</>;
 
-  return <div>{page.title}</div>;
+  return (
+    <Container>
+      <Grid columns={2} gap={2}>
+        <Box>
+          <Heading as={"h1"} size={"h1"}>
+            {page.title}
+          </Heading>
+        </Box>
+        <Box>
+          <Paragraph className={"test"}>{page.title}</Paragraph>
+        </Box>
+      </Grid>
+    </Container>
+  );
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
